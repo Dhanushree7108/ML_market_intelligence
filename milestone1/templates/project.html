@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Submit a Project · Market Intelligence Platform{% endblock %}
+
+{% block content %}
+
+  <header class="panel-hero">
+    <p class="eyebrow">Data Collection &amp; Market Intelligence</p>
+    <h1>Tell us about the project.</h1>
+    <p class="panel-sub">
+      Every prediction this platform will eventually make — risk score, SWOT,
+      AI recommendations — starts with the seven fields below. Fill them in
+      once, accurately, and every later milestone builds on this record.
+    </p>
+  </header>
+
+  <form class="intake-form" action="{{ url_for('submit_project') }}" method="POST" novalidate>
+
+    <div class="field-row">
+      <label class="field-num" for="project_name">01</label>
+      <div class="field-body">
+        <label for="project_name" class="field-label">Project name <span class="req">*</span></label>
+        <input type="text" id="project_name" name="project_name" placeholder="e.g. Online College Food Delivery" required>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label class="field-num" for="project_description">02</label>
+      <div class="field-body">
+        <label for="project_description" class="field-label">Project description <span class="req">*</span></label>
+        <textarea id="project_description" name="project_description" rows="3"
+          placeholder="What does the product do, and for whom?" required></textarea>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label class="field-num" for="target_market">03</label>
+      <div class="field-body">
+        <label for="target_market" class="field-label">Target market <span class="req">*</span></label>
+        <textarea id="target_market" name="target_market" rows="2"
+          placeholder="Who is this built for?" required></textarea>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label class="field-num" for="budget">04</label>
+      <div class="field-body">
+        <label for="budget" class="field-label">Budget <span class="req">*</span></label>
+        <div class="input-with-prefix">
+          <span class="prefix">$</span>
+          <input type="number" id="budget" name="budget" min="0" step="0.01" placeholder="50000" required>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label class="field-num" for="competition">05</label>
+      <div class="field-body">
+        <label for="competition" class="field-label">Competition</label>
+        <textarea id="competition" name="competition" rows="2"
+          placeholder="Who else is solving this problem?"></textarea>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label class="field-num" for="resources">06</label>
+      <div class="field-body">
+        <label for="resources" class="field-label">Resources</label>
+        <textarea id="resources" name="resources" rows="2"
+          placeholder="Team, tooling, funding already in hand"></textarea>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label class="field-num" for="objectives">07</label>
+      <div class="field-body">
+        <label for="objectives" class="field-label">Objectives</label>
+        <textarea id="objectives" name="objectives" rows="2"
+          placeholder="What does success look like in 90 days?"></textarea>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-submit">Submit project</button>
+      <span class="form-hint">Saved straight to PostgreSQL — nothing leaves this record until Milestone 2 reads it.</span>
+    </div>
+
+  </form>
+
+{% endblock %}

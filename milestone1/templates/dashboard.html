@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Market Intelligence Platform{% endblock %}
+
+{% block content %}
+
+  <header class="panel-hero">
+    <p class="eyebrow">Stage 04 · Market Analysis</p>
+    <h1>Market intelligence for this project.</h1>
+    <p class="panel-sub">
+      A read of the market this project is entering — sized, trended, and
+      benchmarked against the field it's competing in.
+    </p>
+  </header>
+
+  {% if not project %}
+  <div class="flash-stack">
+    <div class="flash flash--neutral">
+      No project submitted yet. <a href="{{ url_for('home') }}">Submit one</a> to see it summarised here.
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="dash-grid">
+
+    <!-- Project Submission -->
+    <section class="dash-card dash-card--teal">
+      <h2 class="dash-card-title">Project Submission</h2>
+      {% if project %}
+      <div class="dash-summary">
+        <div class="dash-summary-row"><span>Project</span><strong>{{ project.project_name }}</strong></div>
+        <div class="dash-summary-row"><span>Target market</span><strong>{{ project.target_market }}</strong></div>
+        <div class="dash-summary-row"><span>Budget</span><strong class="mono">${{ "{:,.0f}".format(project.budget) }}</strong></div>
+      </div>
+      {% if project.project_description %}
+      <p class="dash-note">{{ project.project_description }}</p>
+      {% endif %}
+      {% else %}
+      <p class="dash-note dash-note--muted">Awaiting a submitted project.</p>
+      {% endif %}
+    </section>
+
+    <!-- Market Analysis -->
+    <section class="dash-card dash-card--wide dash-card--violet">
+      <h2 class="dash-card-title">Market Analysis</h2>
+
+      <div class="stat-row">
+        <div class="stat-card">
+          <span class="stat-value">{{ market_size.tam.value }}</span>
+          <span class="stat-label">{{ market_size.tam.label }}</span>
+          <span class="stat-desc">{{ market_size.tam.description }}</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">{{ market_size.sam.value }}</span>
+          <span class="stat-label">{{ market_size.sam.label }}</span>
+          <span class="stat-desc">{{ market_size.sam.description }}</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">{{ market_size.som.value }}</span>
+          <span class="stat-label">{{ market_size.som.label }}</span>
+          <span class="stat-desc">{{ market_size.som.description }}</span>
+        </div>
+      </div>
+
+      <h3 class="dash-subheading">Market Funnel</h3>
+      <div class="funnel">
+        {% for f in market_funnel %}
+        <div class="funnel-row">
+          <span class="funnel-label">{{ f.label }}</span>
+          <div class="funnel-track">
+            <div class="funnel-fill funnel-fill--{{ f.label | lower }}" style="width: {{ f.width }}%;"></div>
+          </div>
+          <span class="funnel-value mono">{{ f.value }}</span>
+        </div>
+        {% endfor %}
+      </div>
+
+      <h3 class="dash-subheading">Market Trends · 2020–2026</h3>
+      <canvas id="trendsChart" height="150"
+        data-years='{{ market_trends["years"] | tojson }}'
+        data-values='{{ market_trends["values"] | tojson }}'></canvas>
+    </section>
+
+    <!-- Competitor Landscape -->
+    <section class="dash-card dash-card--wide dash-card--coral">
+      <h2 class="dash-card-title">Competitor Landscape</h2>
+
+      <div class="chart-pair">
+        <div class="chart-pair-cell">
+          <h3 class="dash-subheading">Market Share</h3>
+          <canvas id="shareChart" height="180"
+            data-labels='{{ competitors | map(attribute="name") | list | tojson }}'
+            data-shares='{{ competitors | map(attribute="market_share") | list | tojson }}'></canvas>
+        </div>
+        <div class="chart-pair-cell">
+          <h3 class="dash-subheading">Revenue ($M)</h3>
+          <canvas id="revenueChart" height="180"
+            data-labels='{{ competitors | map(attribute="name") | list | tojson }}'
+            data-revenue='{{ competitors | map(attribute="revenue_millions") | list | tojson }}'></canvas>
+        </div>
+      </div>
+
+      <div class="competitor-grid">
+        {% for c in competitors %}
+        <div class="competitor-card">
+          <div class="competitor-head">
+            <span class="competitor-swatch competitor-swatch--{{ loop.index }}"></span>
+            <span class="competitor-name">{{ c.name }}</span>
+            <span class="competitor-growth">{{ c.growth }}</span>
+          </div>
+          <div class="competitor-bar">
+            <div class="competitor-fill competitor-fill--{{ loop.index }}" style="width: {{ c.market_share }}%;"></div>
+          </div>
+          <div class="competitor-meta">
+            <span>Share {{ c.market_share }}%</span>
+            <span class="mono">{{ c.revenue }}</span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+  </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
