@@ -1,7 +1,8 @@
 """Milestone 2 rule-based SWOT generator."""
 
 
-def generate_swot(team_expertise, innovation_level, market_competition, resource_availability, market_research):
+def generate_swot(team_expertise, innovation_level, market_competition,
+                  resource_availability, market_research):
     strengths, weaknesses, opportunities, threats = [], [], [], []
 
     if team_expertise == "High":
@@ -25,12 +26,6 @@ def generate_swot(team_expertise, innovation_level, market_competition, resource
     if market_competition == "High":
         threats.append("Strong competitors")
     threats.extend(["Rapid technology changes", "Market uncertainty"])
-
-    # Keep every SWOT box meaningful even for neutral/mid-range inputs.
-    if not strengths:
-        strengths.append("Balanced project foundation")
-    if not weaknesses:
-        weaknesses.append("No major weakness triggered by current inputs")
 
     return {
         "Strengths": strengths,

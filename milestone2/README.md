@@ -1,14 +1,18 @@
-# Milestone 2 — Risk Assessment & SWOT Analysis (Streamlit)
+# Milestone 2 — Risk Assessment & SWOT (Streamlit)
 
-This milestone reads the latest project(s) from the Milestone 1 PostgreSQL `projects` table and provides the Risk Assessment, SWOT Analysis, and Project Feasibility flow.
+This folder contains **only the Milestone 2 implementation**. It does not
+modify Milestone 1 Flask files.
 
 Run from this folder:
 
-```powershell
-python -m venv venv
-.\venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-python -m streamlit run streamlit_app.py
+```bash
+pip install -r requirements.txt
+streamlit run streamlit_app.py
 ```
 
-The shared `.env` is one level above this folder, at the repository root.
+The app reads the existing Milestone 1 PostgreSQL `projects` table and provides
+Project Input, Risk Assessment, SWOT, Feasibility, Recommendations and a
+dashboard-style view.
+
+Create `.env` at the project root (one level above `milestone2`) using the
+same database settings as Milestone 1. Never commit `.env`.
