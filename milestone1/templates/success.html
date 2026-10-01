@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Project Saved · Market Intelligence Platform{% endblock %}
+
+{% block content %}
+
+  <header class="panel-hero">
+    <p class="eyebrow">Project #{{ project_id }} · stored</p>
+    <h1>Project submitted successfully.</h1>
+    <p class="panel-sub">
+      This record now lives in PostgreSQL. Once Milestone 2 ships, it will be
+      the input to risk scoring and the SWOT breakdown.
+    </p>
+  </header>
+
+  <section class="receipt">
+    <div class="receipt-row">
+      <span class="receipt-label">Project name</span>
+      <span class="receipt-value">{{ project.project_name }}</span>
+    </div>
+    <div class="receipt-row">
+      <span class="receipt-label">Description</span>
+      <span class="receipt-value">{{ project.project_description }}</span>
+    </div>
+    <div class="receipt-row">
+      <span class="receipt-label">Target market</span>
+      <span class="receipt-value">{{ project.target_market }}</span>
+    </div>
+    <div class="receipt-row">
+      <span class="receipt-label">Budget</span>
+      <span class="receipt-value receipt-value--mono">${{ "%.2f"|format(budget) }}</span>
+    </div>
+    {% if project.competition %}
+    <div class="receipt-row">
+      <span class="receipt-label">Competition</span>
+      <span class="receipt-value">{{ project.competition }}</span>
+    </div>
+    {% endif %}
+    {% if project.resources %}
+    <div class="receipt-row">
+      <span class="receipt-label">Resources</span>
+      <span class="receipt-value">{{ project.resources }}</span>
+    </div>
+    {% endif %}
+    {% if project.objectives %}
+    <div class="receipt-row">
+      <span class="receipt-label">Objectives</span>
+      <span class="receipt-value">{{ project.objectives }}</span>
+    </div>
+    {% endif %}
+  </section>
+
+  <div class="form-actions">
+    <a class="btn-submit" href="{{ url_for('dashboard') }}">View market dashboard</a>
+    <a class="btn-submit btn-submit--ghost" href="{{ url_for('home') }}">Submit another project</a>
+  </div>
+
+{% endblock %}

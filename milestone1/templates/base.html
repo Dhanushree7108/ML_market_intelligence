@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Market Intelligence Platform{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <div class="console">
+
+    <!-- Milestone rail: the roadmap from the project plan, encoded as UI -->
+    <aside class="rail">
+      <div class="rail-brand">
+        <span class="rail-brand-mark">MI</span>
+        <span class="rail-brand-text">Market&nbsp;Intelligence<br>Platform</span>
+      </div>
+
+      <ol class="rail-stages">
+        <li class="stage {{ 'stage--active' if active_stage == 'intake' else '' }}">
+          <a class="stage-link" href="{{ url_for('home') }}">
+            <span class="stage-index">01</span>
+            <span class="stage-body">
+              <span class="stage-name">Project Intake</span>
+              <span class="stage-desc">Form → Flask → PostgreSQL</span>
+            </span>
+          </a>
+        </li>
+        <li class="stage stage--preview {{ 'stage--active' if active_stage == 'risk' else '' }}">
+          <a class="stage-link" href="{{ url_for('risk_assessment') }}">
+            <span class="stage-index">02</span>
+            <span class="stage-body">
+              <span class="stage-name">Risk &amp; SWOT</span>
+              <span class="stage-desc">Milestone 2</span>
+            </span>
+          </a>
+        </li>
+        <li class="stage stage--preview {{ 'stage--active' if active_stage == 'recommendations' else '' }}">
+          <a class="stage-link" href="{{ url_for('recommendations') }}">
+            <span class="stage-index">03</span>
+            <span class="stage-body">
+              <span class="stage-name">AI Recommendations</span>
+              <span class="stage-desc">Milestone 3 · LangGraph</span>
+            </span>
+          </a>
+        </li>
+        <li class="stage {{ 'stage--active' if active_stage == 'dashboard' else '' }}">
+          <a class="stage-link" href="{{ url_for('dashboard') }}">
+            <span class="stage-index">04</span>
+            <span class="stage-body">
+              <span class="stage-name">Dashboard</span>
+              <span class="stage-desc">Market Analysis</span>
+            </span>
+          </a>
+        </li>
+      </ol>
+
+      <div class="rail-footer">
+        <span class="rail-footer-dot"></span>
+        <span>{{ stage_index if stage_index else ('04' if active_stage == 'dashboard' else '01') }} · {{ 'Dashboard' if active_stage == 'dashboard' else (title if title else 'Project Intake') }}</span>
+      </div>
+    </aside>
+
+    <!-- Main panel -->
+    <main class="panel">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="flash-stack">
+            {% for message in messages %}
+              <div class="flash">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

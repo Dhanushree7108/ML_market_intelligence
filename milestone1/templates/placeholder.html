@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} · Market Intelligence Platform{% endblock %}
+
+{% block content %}
+
+  <header class="panel-hero">
+    <p class="eyebrow">Stage {{ stage_index }} · Coming up next</p>
+    <h1>{{ title }}</h1>
+    <p class="panel-sub">{{ note }}</p>
+  </header>
+
+  <section class="coming-soon">
+    <div class="coming-soon-badge">In progress</div>
+    <p>
+      This tab is wired up and ready — routing, navigation, and the shared
+      visual system already work here. The only thing missing is the
+      milestone's logic, which slots in without touching Project Intake or
+      the Dashboard.
+    </p>
+    <a class="btn-submit btn-submit--ghost" href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+  </section>
+
+{% endblock %}
